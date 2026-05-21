@@ -9,6 +9,7 @@ public class PlayerAttack : MonoBehaviour
     public float attackRange=1;
     public LayerMask enemyLayers;
     public int attackDamage=1;
+    Animator animator;
     private void Attack()
     {
         Collider2D[] hitEnemies =Physics2D.OverlapCircleAll(attackPoint.position,attackRange,enemyLayers);
@@ -20,7 +21,7 @@ public class PlayerAttack : MonoBehaviour
     }
     void Start()
     {
-        
+        animator = GetComponent<Animator>();
     }
     // Update is called once per frame
     void Update()
@@ -29,6 +30,7 @@ public class PlayerAttack : MonoBehaviour
         {
             Debug.Log("¹¥»÷");
             Attack();
+            animator.SetTrigger("Attack");
         }
     }
     private void OnDrawGizmosSelected()
