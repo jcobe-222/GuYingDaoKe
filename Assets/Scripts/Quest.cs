@@ -1,23 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-
 public class Quest : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public bool questAccepted=false;
-    public bool questCompleted=false;
-    public int targetEnemys = 3;
-    public int killedDeemys = 0;
-    public int rewardGold=100;
-    void Start()
+    public int killedEnemies = 0;
+    public TextMeshProUGUI questText;
+    private void Start()
     {
-        
+        questText.text = "Kill 3 enemies";
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        
+        GameEvents.onEnemyKilled += EnemyKilled;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.onEnemyKilled -= EnemyKilled;
+    }
+
+    void EnemyKilled()
+    {
+        killedEnemies++;
+
+        questText.text =
+            "Killed: " + killedEnemies + "/3";
+
+        Debug.Log("任务进度更新");
     }
 }
