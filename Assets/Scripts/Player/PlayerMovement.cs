@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
     private Animator anim;
     private SpriteRenderer sr;
+    public PlayerHealth playerHealth;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -16,6 +17,10 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
+        if (playerHealth.isDead)
+        {
+            return;
+        }
         // ªÒ»° ‰»Î
         moveInput.x = Input.GetAxisRaw("Horizontal");
         moveInput.y = Input.GetAxisRaw("Vertical");

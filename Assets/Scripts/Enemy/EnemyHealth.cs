@@ -11,11 +11,13 @@ public class EnemyHealth : MonoBehaviour
     private SpriteRenderer sr;
     private Rigidbody2D rb;
     private Color originalColor;
+    private EnemyAI enemyAI;
     private void Start()
     {
         // 获取组件
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
+        enemyAI = GetComponent<EnemyAI>();
         // 记录原始颜色
         originalColor = sr.color;
     }
@@ -30,14 +32,15 @@ public class EnemyHealth : MonoBehaviour
         // 击退
         Knockback(hitDirection);
         // 顿帧
-        HitStop.Instance.StopTime(0.15f);
+        HitStop.Instance.StopTime(0.1f);
+        enemyAI.Hurt();
         // 判断死亡
         if (hp <= 0)
         {
             Die();
         }
     }
-    // 闪白协程
+    // 闪红协程
     IEnumerator HitFlash()
     {
         sr.color = Color.red;

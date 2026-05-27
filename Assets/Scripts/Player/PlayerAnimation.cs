@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class PlayerAnimation : MonoBehaviour
 {
     private Animator anim;
@@ -16,11 +15,6 @@ public class PlayerAnimation : MonoBehaviour
         float speed = rb.velocity.magnitude;
         // 传给Animator
         anim.SetFloat("Speed", speed);
-        // 攻击动画
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            anim.SetTrigger("Attack");
-        }
     }
     // 受伤动画
     public void PlayHurt()
