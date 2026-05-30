@@ -10,13 +10,15 @@ public class EnemyAI : MonoBehaviour
         Hurt,
         Dead
     }
+    [Header("攻击判定")]
+    public Collider2D attackCollider;
     public EnemyState currentState;
     [Header("受击硬直")]
     public bool isHurt;
-    public float hurtTime = 0.4f;
+    public float hurtTime = 0.7f;
     [Header("移动设置")]
     public float moveSpeed = 2f;
-    public float chaseDistance = 6f;
+    public float chaseDistance = 0.6f;
     public float attackDistance =0.5f;
     [Header("攻击设置")]
     public int damage = 1;
@@ -29,6 +31,7 @@ public class EnemyAI : MonoBehaviour
     private bool isAttacking;
     private void Start()
     {
+        attackCollider.enabled = false;
         currentState = EnemyState.Idle;
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>();
@@ -83,7 +86,7 @@ public class EnemyAI : MonoBehaviour
         anim.SetFloat("Speed", rb.velocity.magnitude);
         float distance =Vector2.Distance(transform.position, player.position);
         // 发现玩家
-        if (distance <= chaseDistance)
+        if (distance >= chaseDistance)
         {
             currentState = EnemyState.Chase;
         }
@@ -100,7 +103,11 @@ public class EnemyAI : MonoBehaviour
         }
     }
     void Attack()
-    {
+    {   
+        if(isAttacking)
+        {
+            return;
+        }
         // 停止移动
         StopMove();
         // 冷却中
@@ -113,30 +120,17 @@ public class EnemyAI : MonoBehaviour
         // 播放攻击动画
         anim.SetTrigger("Attack");
         Debug.Log("敌人攻击");
-        currentState = EnemyState.Idle;
     }
     // 动画事件调用
     public void DealDamage()
     {
-        if (player == null)
-        {
-            return;
-        }
-        float distance =Vector2.Distance(transform.position,player.position);
-        // 防止玩家跑远
-        if (distance <= attackDistance)
-        {
-            PlayerHealth ph =player.GetComponent<PlayerHealth>();
-            if (ph != null)
-            {
-                ph.TakeDamage(damage);
-            }
-        }
+        return;
     }
     // 动画结束调用
     public void EndAttack()
     {
         isAttacking = false;
+        currentState = EnemyState.Chase;
     }
     void Flip()
     {
@@ -161,15 +155,16 @@ public class EnemyAI : MonoBehaviour
         yield return new WaitForSeconds(hurtTime);
         isHurt = false;
     }
-    void EnableAttack()
-    {
-        return;
+    public void EnableAttack()
+    {   
+    attackCollider.enabled = true;
     }
-    void DisableAttack()
+    public void DisableAttack()
     {
-        return;
+     attackCollider.enabled = false;
+    isAttacking=false;
     }
-    void EnableNextCombo()
+    public void EnableNextCombo()
     {
         return;
     }

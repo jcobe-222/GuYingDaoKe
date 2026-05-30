@@ -87,4 +87,14 @@ public class PlayerAttack : MonoBehaviour
         attackCollider.enabled = false;
         Debug.Log("关闭攻击判定");
     }
+    public void ForceStopAttack()
+    {
+        isAttacking = false;
+        canNextCombo = false;
+        comboIndex = 0;
+        attackCollider.enabled = false;
+        anim.ResetTrigger("Attack1");
+        anim.ResetTrigger("Attack2");
+        Debug.Log("玩家攻击被强制打断");
+    }
 }

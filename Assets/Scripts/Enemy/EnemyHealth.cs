@@ -32,7 +32,7 @@ public class EnemyHealth : MonoBehaviour
         // »÷ÍË
         Knockback(hitDirection);
         // ¶ÙÖ¡
-        HitStop.Instance.StopTime(0.1f);
+        HitStopManager.Instance.Stop(0.05f);
         enemyAI.Hurt();
         // ÅĞ¶ÏËÀÍö
         if (hp <= 0)

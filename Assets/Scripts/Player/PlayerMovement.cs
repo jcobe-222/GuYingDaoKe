@@ -2,55 +2,47 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("移动速度")]
-    public float moveSpeed = 2f;
-    private Rigidbody2D rb;
-    private Vector2 moveInput;
+    public float moveSpeed = 5f;
+    private PlayerMotor motor;
     private Animator anim;
-    private SpriteRenderer sr;
-    public PlayerHealth playerHealth;
+    private Vector2 moveInput;
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        motor = GetComponent<PlayerMotor>();
         anim = GetComponent<Animator>();
-        sr = GetComponent<SpriteRenderer>();
     }
     private void Update()
     {
-        if (playerHealth.isDead)
-        {
-            return;
-        }
-        // 获取输入
-        moveInput.x = Input.GetAxisRaw("Horizontal");
-        moveInput.y = Input.GetAxisRaw("Vertical");
-        // 防止斜方向更快
-        moveInput = moveInput.normalized;
-        // 动画速度参数
-        anim.SetFloat("Speed", moveInput.magnitude);
-        // 左右翻转角色
+        InputMove();
+        AnimationControl();
         Flip();
     }
+
     private void FixedUpdate()
     {
-        // Rigidbody移动
-        rb.velocity = moveInput * moveSpeed;
+        motor.Move(moveInput, moveSpeed);
+    }
+    void InputMove()
+    {
+        float x = Input.GetAxisRaw("Horizontal");
+        float y = Input.GetAxisRaw("Vertical");
+        moveInput = new Vector2(x, y).normalized;
+    }
+
+    void AnimationControl()
+    {
+        anim.SetFloat("Speed", Mathf.Abs(moveInput.x));
     }
 
     void Flip()
     {
-            // 向右
-            if (moveInput.x > 0)
-            {
-                transform.localScale =
-                new Vector3(1, 1, 1);
-            }
-
-            // 向左
-            else if (moveInput.x < 0)
-            {
-                transform.localScale =
-                new Vector3(-1, 1, 1);
-            }
+        if (moveInput.x > 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else if (moveInput.x < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
 }

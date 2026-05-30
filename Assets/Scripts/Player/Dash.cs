@@ -4,9 +4,9 @@ using System.Collections;
 public class PlayerDash : MonoBehaviour
 {
     [Header("Dash设置")]
-    public float dashSpeed = 12f;
+    public float dashSpeed = 20f;
     public float dashTime = 0.2f;
-    public float dashCooldown = 1f;
+    public float dashCooldown = 2f;
     [Header("无敌帧")]
     public bool isInvincible;
     // 是否正在Dash
@@ -17,14 +17,16 @@ public class PlayerDash : MonoBehaviour
     private Animator anim;
     // Dash方向
     private Vector2 dashDirection;
-    private void Start()
+    public PlayerMotor motor;
+    void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
     }
-    private void Update()
+    void Update()
     {
         DashInput();
+        motor = GetComponent<PlayerMotor>();
     }
     // Dash输入
     void DashInput()
@@ -60,7 +62,7 @@ public class PlayerDash : MonoBehaviour
         while (timer < dashTime)
         {
             // 持续移动
-            rb.velocity = dashDirection * dashSpeed;
+            motor.Dash(dashDirection, dashSpeed);
             // 时间增加
             timer += Time.deltaTime;
             // 等下一帧
@@ -68,6 +70,7 @@ public class PlayerDash : MonoBehaviour
         }
         // 停止移动
         rb.velocity = Vector2.zero;
+        motor.Stop();
         // 关闭无敌帧
         isInvincible = false;
         // Dash结束
