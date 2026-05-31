@@ -2,6 +2,10 @@
 基于 Unity 与 C# 开发的 2D 动作游戏 Demo。
 个人独立开发项目
 开发周期：2026.05 - 2026.06
+## Demo Video
+
+🎮 Gameplay Demo
+https://github.com/jcobe-222/GuYingDaoKe/releases/tag/v1.0
 
 ## 项目简介
 玩家将扮演一名刀客，通过移动、冲刺与连击击败敌人，并完成关卡挑战。
