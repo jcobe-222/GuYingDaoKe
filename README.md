@@ -3,6 +3,7 @@
 
 ## 项目简介
 玩家将扮演一名刀客，通过移动、冲刺与连击击败敌人，并完成关卡挑战。
+<img width="2487" height="1147" alt="image" src="https://github.com/user-attachments/assets/39f84251-a76c-4d65-a9ca-292b60b3c1f7" />
 
 ## 核心功能
 * 玩家移动与翻转
